@@ -1,0 +1,5 @@
+{
+  "_comment": "Copy this file to contacts.json and fill in real numbers. Keys are names you'll say in chat (case-insensitive). Values are phone numbers in international format WITHOUT the leading +. contacts.json is gitignored so your real contacts never get committed.",
+  "mom": "923001234567",
+  "ali": "923219876543"
+}

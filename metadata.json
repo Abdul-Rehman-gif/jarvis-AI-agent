@@ -1,0 +1,11 @@
+{
+  "name": "Jarvis AI Desktop Assistant",
+  "description": "Futuristic AI Desktop Copilot with real-time PC control, voice assistant, automated workflows, file manager, and Windows agent bridge.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
