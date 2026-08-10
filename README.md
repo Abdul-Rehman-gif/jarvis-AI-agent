@@ -1,4 +1,38 @@
+<div align="center">
+
 # Jarvis AI Desktop Assistant
+
+**A conversational AI assistant that controls a real Windows PC through natural language and voice.**
+
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org)
+[![Gemini API](https://img.shields.io/badge/AI-Gemini-8E75B2?logo=googlegemini&logoColor=white)](https://ai.google.dev)
+[![Selenium](https://img.shields.io/badge/Automation-Selenium-43B02A?logo=selenium&logoColor=white)](https://www.selenium.dev)
+[![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?logo=windows&logoColor=white)](#)
+[![License](https://img.shields.io/badge/License-Personal%20Use-lightgrey)](#)
+
+</div>
+
+---
+
+## Contents
+
+- [Overview](#overview)
+- [How it works](#how-it-works)
+- [Requirements](#requirements)
+- [Part 1: Setting up the web server](#part-1-setting-up-the-web-server)
+- [Part 2: Setting up the desktop agent](#part-2-setting-up-the-desktop-agent)
+- [Optional: WhatsApp messaging](#optional-whatsapp-messaging)
+- [Optional: allowing remote restart and shutdown](#optional-allowing-remote-restart-and-shutdown)
+- [Security notes](#security-notes)
+- [Project structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+## Overview
 
 Jarvis is a personal AI assistant with a web-based chat and dashboard, built on top of Google's Gemini model for understanding natural language commands. It can hold a normal conversation, and it can also control a real Windows PC: opening applications, adjusting volume, taking screenshots, managing files, running approved PowerShell scripts, and searching or playing content on YouTube through a real, visible browser.
 
@@ -9,9 +43,13 @@ The project has two parts that run separately:
 
 You need both running for full functionality. The dashboard works on its own for conversation and information questions (date, time, weather), but any command that touches your actual PC - opening an app, taking a screenshot, searching YouTube - requires the desktop agent to be running and paired.
 
+---
+
 ## How it works
 
 When you type or speak a command, it goes to the server, which uses Gemini to figure out what you're asking for. If it's just a question, the server answers directly. If it's a command that needs to run on your PC, the server sends it to the paired desktop agent over the WebSocket connection, waits for the agent to actually do it, and reports back what happened. Commands considered risky - shutting down the PC, deleting files, running a PowerShell script - are held back and only run once you explicitly confirm them in the dashboard.
+
+---
 
 ## Requirements
 
@@ -23,6 +61,8 @@ To run the desktop agent (only needed if you want Jarvis to control a real PC):
 - Windows 10 or 11
 - Python 3.9 or later
 - Google Chrome installed (needed for the YouTube search and playback features)
+
+---
 
 ## Part 1: Setting up the web server
 
@@ -53,6 +93,8 @@ To run the desktop agent (only needed if you want Jarvis to control a real PC):
    ```
 
 4. Open a browser and go to `http://127.0.0.1:3000`. You should see the Jarvis dashboard. At this point you can already chat with Jarvis and ask general questions - PC control commands will report that no desktop agent is connected until you complete Part 2.
+
+---
 
 ## Part 2: Setting up the desktop agent
 
@@ -95,6 +137,8 @@ The desktop agent must run on the actual Windows PC you want Jarvis to control. 
 
 Keep this terminal window open while you want Jarvis to be able to control the PC. Closing it disconnects the agent; the dashboard will report it as no longer connected.
 
+---
+
 ## Optional: WhatsApp messaging
 
 Jarvis can open a WhatsApp chat with a message pre-filled, ready for you to review and send yourself - it never sends a message on its own. To use this by contact name instead of a raw phone number, copy `contacts.example.json` to `contacts.json` in the project root and fill in real names and phone numbers. This file is excluded from version control so your contacts are never committed.
@@ -103,6 +147,8 @@ Jarvis can open a WhatsApp chat with a message pre-filled, ready for you to revi
 
 By default, the desktop agent refuses restart and shutdown commands even if you confirm them in the dashboard, as an extra safety measure. To allow them, set `JARVIS_ALLOW_POWER_ACTIONS=1` in the environment on the agent machine before starting the agent. Leave this unset if you don't need remote power control.
 
+---
+
 ## Security notes
 
 - The server binds to `127.0.0.1` (localhost only) by default, meaning nothing outside your own computer can reach it. Only change this if you understand the risk and have proper authentication and encryption in front of it.
@@ -110,6 +156,8 @@ By default, the desktop agent refuses restart and shutdown commands even if you 
 - The desktop agent independently re-checks file paths and PowerShell scripts against its own safety rules before running anything, even if a request somehow got past the server's checks.
 - File delete and folder creation commands are restricted to a sandboxed folder under your Documents, Downloads, or Desktop; the agent will not touch system folders or other user profiles.
 - Shutdown and restart are blocked by default, as described above.
+
+---
 
 ## Project structure
 
@@ -125,6 +173,8 @@ server/whatsapp.ts           Resolves contact names to WhatsApp links
 src/                          React frontend (dashboard, chat, and settings screens)
 ```
 
+---
+
 ## Troubleshooting
 
 **The dashboard says no desktop agent is connected.**
@@ -138,3 +188,11 @@ These features open a real, visible Chrome window on the agent machine and requi
 
 **A command was blocked with a safety message.**
 This is expected behavior, not a bug. Certain actions - deleting files outside the sandboxed folders, running scripts that match a denylist of destructive patterns, shutdown and restart - are intentionally restricted. Review the Security notes section above if you need to adjust these limits for your own use.
+
+---
+
+<div align="center">
+
+Built by Abdul Rehman
+
+</div>
